@@ -1,5 +1,16 @@
 # Import necessary libraries
+
 import streamlit as st
+
+st.title("Secrets Test")
+
+try:
+    api_key = st.secrets["TOGETHER_API_KEY"]
+    st.success(f"TOGETHER_API_KEY is set! Value: {api_key[:5]}***")  # Show partial value
+except KeyError:
+    st.error("TOGETHER_API_KEY is not set.")
+
+'''import streamlit as st
 import os
 from together import Together
 
@@ -57,3 +68,6 @@ if st.button("Generate Code"):
         st.code(generated_code, language="python")
     else:
         st.error("Please provide a valid description.")
+'''
+
+
