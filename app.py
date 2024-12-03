@@ -1,14 +1,47 @@
 # Import necessary libraries
 
+# Import necessary libraries
 import streamlit as st
+import os
+from together import Together
 
-st.title("Secrets Test")
+# Title for the placeholder app
+st.title("Secrets and Together Client Debugging")
+
+# Debugging Secrets Manager
+st.header("Step 1: Check Streamlit Secrets")
 
 try:
-    api_key = st.secrets["TOGETHER_API_KEY"]
-    st.success(f"TOGETHER_API_KEY is set! Value: {api_key[:5]}***")  # Show partial value
-except KeyError:
-    st.error("TOGETHER_API_KEY is not set.")
+    # Check if the secrets are accessible
+    secrets = st.secrets
+    st.write("Secrets found:", secrets)
+    
+    # Try accessing the specific TOGETHER_API_KEY
+    api_key = secrets["TOGETHER_API_KEY"]
+    st.success(f"TOGETHER_API_KEY is set! Partial value: {api_key[:5]}***")
+except KeyError as e:
+    st.error(f"KeyError: Missing secret key: {e}")
+except Exception as e:
+    st.error(f"Unexpected error while accessing secrets: {e}")
+
+# Debugging Together Client Initialization
+st.header("Step 2: Initialize Together Client")
+
+try:
+    # Set the API key as an environment variable
+    os.environ["TOGETHER_API_KEY"] = st.secrets["TOGETHER_API_KEY"]
+    
+    # Initialize the Together client
+    client = Together()
+    st.success("Together client initialized successfully!")
+except KeyError as e:
+    st.error(f"KeyError during Together client setup: {e}")
+except Exception as e:
+    st.error(f"Unexpected error during Together client setup: {e}")
+
+# Final Debug Output
+st.header("Step 3: Ready for Final App")
+st.write("If the above steps show success, your app is ready for deployment.")
 
 '''import streamlit as st
 import os
